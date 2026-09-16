@@ -15,17 +15,31 @@
 
 > 规则不在各 SKILL.md 外部依赖中,故复制/修改互不牵连,但改规则时记得「母本 + 内联副本」两处一起改。
 
+> **另有一处需同步的内联副本**：`unity-module-detail` 与 `unitygame-core-flow-doc` 各自内联了一份同源的「一级模块归属判定」规则（决定 `<一级模块名>/<子模块名>` 输出目录）。改动该规则时，这两份也要一起改（同样为保持 skill 自包含，未抽到 `_shared`）。
+
 ## 技能一览
 
 | 技能 | 侧重层 | 作用 | 输出 |
 |------|------|------|------|
 | [unity-project-overview](unity-project-overview/SKILL.md) | 一级模块层 | 列出一级模块 + 模块间**依赖关系** | `项目根/AboutMe/Overview.md` |
 | [unity-module-overview](unity-module-overview/SKILL.md) | 子模块层 | 列出某一级模块下的子模块 + 子模块间**依赖关系** | `项目根/AboutMe/<一级模块名>.md` |
-| [unity-module-detail](unity-module-detail/SKILL.md) | 核心逻辑层 | 单个子模块的职责/功能/边界 + **按职责功能划分的所有核心逻辑**清单 | `项目根/AboutMe/<子模块名>.md` |
-| [unitygame-core-flow-doc](unitygame-core-flow-doc/SKILL.md) | 流程层 | 对 detail 产出的核心逻辑**详细解析**（跨模块全链路深挖） | `项目根/AboutMe/<子系统>/NN-xxx.md` |
+| [unity-module-detail](unity-module-detail/SKILL.md) | 核心逻辑层 | 单个子模块的职责/功能/边界 + **按职责功能划分的所有核心逻辑**清单 | `项目根/AboutMe/<一级模块名>/<子模块名>.md` |
+| [unitygame-core-flow-doc](unitygame-core-flow-doc/SKILL.md) | 流程层 | 对 detail 产出的核心逻辑**详细解析**（跨模块全链路深挖） | `项目根/AboutMe/<一级模块名>/<子模块名>/<核心流程名>.md` |
 
 **数据流**:项目 → 一级模块 → 子模块 → 核心逻辑 → 流程。上游产出的清单是下游的输入:
-- `Overview.md`(一级模块+依赖) → `<一级模块名>.md`(子模块+依赖) → `<子模块名>.md`(核心逻辑清单) → 单条核心逻辑的 `NN-xxx.md` 流程详析。
+- `Overview.md`(一级模块+依赖) → `<一级模块名>.md`(子模块+依赖) → `AboutMe/<一级模块名>/<子模块名>.md`(核心逻辑清单) → `AboutMe/<一级模块名>/<子模块名>/<流程名>.md`(单条核心逻辑的流程详析)。
+
+**目录形状**（清单与流程套嵌,注意二者不是同级）:
+
+```
+AboutMe/
+  Overview.md                      ← project-overview
+  <一级模块名>.md                  ← module-overview（文件）
+  <一级模块名>/                    ← 同名目录,与上面的文件共存
+    <子模块名>.md                  ← module-detail（清单）
+    <子模块名>/                    ← 同名目录,与上面的文件共存
+      <核心流程名>.md              ← core-flow-doc（流程详析,无编号前缀）
+```
 
 ## 共用规范（重要）
 
