@@ -1,54 +1,59 @@
-# Claude Skills 索引
+# Unity 客户端文档 Skills（Claude Code）
 
-本目录下是一组 **Unity 项目分析技能**,按「项目 → 一级模块 → 子模块 → 核心逻辑 → 流程」逐层下钻,协作生成分层架构文档。
+本仓库是一组面向 **Unity 游戏客户端项目** 的 Claude Code 技能，解决同一件事的三个层次：**看懂一个既有工程，并把它沉淀成文档**——先出一页项目总览，再按层盘点模块清单，最后把单个模块写成由浅入深的教学系列。
 
-## 🚀 使用工作流（复制到 Unity 项目 + 改规则）
-
-**复制到 Unity 项目**（每个 skill 已自包含,不用带 `_shared`）:
-1. 把 `unity-project-overview/`、`unity-module-overview/`、`unity-module-detail/`、（可省）`unitygame-core-flow-doc/` 三个/四个文件夹拷贝到目标 Unity 项目的 `.claude/skills/` 下。
-2. 直接调用 skill 即可;各 skill 内联了完整划分规范,复制后无需额外配置。
-
-**修改划分规则**（统一维护入口）:
-1. 编辑权威母本 `_shared/module-division-guide.md`。
-2. **同步**三个 `unity-` skill 正文里的同段内联副本,保持一致。
-3. 若已复制到某项目,把更新后的 SKILL.md 一并拷回项目。
-
-> 规则不在各 SKILL.md 外部依赖中,故复制/修改互不牵连,但改规则时记得「母本 + 内联副本」两处一起改。
-
-> **另有一处需同步的内联副本**：`unity-module-detail` 与 `unitygame-core-flow-doc` 各自内联了一份同源的「一级模块归属判定」规则（决定 `<一级模块名>/<子模块名>` 输出目录）。改动该规则时，这两份也要一起改（同样为保持 skill 自包含，未抽到 `_shared`）。
+所有产出为中文 markdown，统一落在目标工程的 `AboutMe/` 目录下。
 
 ## 技能一览
 
-| 技能 | 侧重层 | 作用 | 输出 |
+| 技能 | 粒度 | 作用 | 产出 |
 |------|------|------|------|
-| [unity-project-overview](unity-project-overview/SKILL.md) | 一级模块层 | 列出一级模块 + 模块间**依赖关系** | `项目根/AboutMe/Overview.md` |
-| [unity-module-overview](unity-module-overview/SKILL.md) | 子模块层 | 列出某一级模块下的子模块 + 子模块间**依赖关系** | `项目根/AboutMe/<一级模块名>.md` |
-| [unity-module-detail](unity-module-detail/SKILL.md) | 核心逻辑层 | 单个子模块的职责/功能/边界 + **按职责功能划分的所有核心逻辑**清单 | `项目根/AboutMe/<一级模块名>/<子模块名>.md` |
-| [unitygame-core-flow-doc](unitygame-core-flow-doc/SKILL.md) | 流程层 | 对 detail 产出的核心逻辑**详细解析**（跨模块全链路深挖） | `项目根/AboutMe/<一级模块名>/<子模块名>/<核心流程名>.md` |
+| [unity-client-overview](unity-client-overview/SKILL.md) | 整个项目 | 架构总览：引言元信息块 + 项目概述 + 分层目录速查 + 启动流程 + 开发约定与风险（60–110 行） | `AboutMe/Overview.md` |
+| [unity-module-overview](unity-module-overview/SKILL.md) | 某一层 | 模块清单：编号表格（序号｜模块｜路径｜职责说明），回填已有模块文档链接 | `AboutMe/<层名>/README.md` |
+| [unity-teach-module](unity-teach-module/SKILL.md) | 单个模块 | 教学文档系列：总览 README + 编号章节，每份 ≤300 行，由浅入深 | `AboutMe/<层名>/<模块名>/README.md` + `01-*.md` |
 
-**数据流**:项目 → 一级模块 → 子模块 → 核心逻辑 → 流程。上游产出的清单是下游的输入:
-- `Overview.md`(一级模块+依赖) → `<一级模块名>.md`(子模块+依赖) → `AboutMe/<一级模块名>/<子模块名>.md`(核心逻辑清单) → `AboutMe/<一级模块名>/<子模块名>/<流程名>.md`(单条核心逻辑的流程详析)。
-
-**目录形状**（清单与流程套嵌,注意二者不是同级）:
+三者的关系是**由粗到细**，但彼此独立，可按需单独使用：
 
 ```
-AboutMe/
-  Overview.md                      ← project-overview
-  <一级模块名>.md                  ← module-overview（文件）
-  <一级模块名>/                    ← 同名目录,与上面的文件共存
-    <子模块名>.md                  ← module-detail（清单）
-    <子模块名>/                    ← 同名目录,与上面的文件共存
-      <核心流程名>.md              ← core-flow-doc（流程详析,无编号前缀）
+unity-client-overview          unity-module-overview        unity-teach-module
+  整个项目骨架         ──▶        某一层的模块清单    ──▶      某个模块怎么运转
+  AboutMe/Overview.md            AboutMe/<层>/README.md       AboutMe/<层>/<模块>/*.md
 ```
 
-## 共用规范（重要）
+- `unity-client-overview` 建立全局认知，回答"这是什么项目、怎么分层、怎么启动"。
+- `unity-module-overview` 只做清单，不做模块内部内容分析。
+- `unity-teach-module` 深挖单个模块，收尾时会在 `AboutMe/Overview.md` 里登记新系列链接（因此它假定总览已存在，但缺失时也能跑）。
 
-三个技能在划分模块/系统、子模块/子系统时的判定规则是**统一**的,集中维护在一份共用规范中:
+## 使用方式
 
-> 📄 **[《模块/系统划分原则》](_shared/module-division-guide.md)**
+**复制到 Unity 项目**：把需要的 skill 目录整个拷到目标工程的 `.claude/skills/` 下即可，例如：
 
-**ⓘ 部署说明**：下面这份文件是划分规则的**权威母本**。skill 会被复制到其他 Unity 项目里使用，因此**每个依赖它的 skill 都已内联了完整规则副本**（自包含），复制后即便读不到母本也能正常运行。**修改划分规则时改这一份母本，并同步各 SKILL.md 的内联副本**。
+```
+<Unity 项目>/.claude/skills/unity-client-overview/SKILL.md
+<Unity 项目>/.claude/skills/unity-module-overview/SKILL.md
+<Unity 项目>/.claude/skills/unity-teach-module/SKILL.md
+```
 
-**核心一句话**:模块按**逻辑职责**划分;类名前缀(或命名空间)相同的 一组类属于同一模块,不得拆成多个。
+每个 skill **自包含**：划分口径、格式规范、模板全部内联在各自的 SKILL.md 里，不依赖任何共享文件，也不需要额外配置。用哪个拷哪个。
 
-**模块大类**:每个模块除所属领域外,还须标注层面 **B=底层 / F=框架 / A=应用**(理想依赖流向 应用→框架→底层;反向依赖标架构警讯)。
+**触发**：各 SKILL.md 的 `description` 已写明触发场景，直接自然语言描述需求即可命中（"给这个项目生成 Overview""更新一下 C#功能层的模块清单""把战斗模块写成由浅入深的系列文档"），也可以用 `/unity-client-overview` 之类显式调用。
+
+## 仓库结构
+
+```
+ClaudeSkills/
+├── README.md
+├── unity-client-overview/
+│   ├── SKILL.md
+│   └── evals/evals.json          ← 该 skill 的评测用例
+├── unity-module-overview/
+│   └── SKILL.md
+└── unity-teach-module/
+    └── SKILL.md
+```
+
+## 共同约定
+
+- 产出全部落在目标工程的 `AboutMe/` 下，三个 skill 的落点互不覆盖（`Overview.md` / `<层名>/README.md` / `<层名>/<模块名>/`）。
+- 各 skill 均假定 `AboutMe/` **未纳入版本控制**：删除或覆盖既有文档前会先报告并要求确认，不做静默删除。
+- 一律不修改业务代码，只读代码、写文档。
