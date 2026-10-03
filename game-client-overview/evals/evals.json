@@ -1,9 +1,9 @@
 {
-  "skill_name": "unity-client-overview",
+  "skill_name": "game-client-overview",
   "evals": [
     {
       "id": 1,
-      "prompt": "给这个 Unity 客户端项目生成一份代码架构总览文档（Overview），控制在 100 行以内。",
+      "prompt": "给这个游戏客户端项目生成一份代码架构总览文档（Overview），控制在 100 行以内。",
       "expected_output": "一份名为 Overview.md（或 <项目名>-Overview.md）的 markdown 文档，中文，结构为通用 H1『# 代码架构总览』+ 引言元信息块 + 项目概述 + 架构分层速查表 + 启动流程 + 开发约定与已知风险，篇幅 60-110 行",
       "files": [],
       "expectations": [
